@@ -1,0 +1,131 @@
+{
+    "speedup": 3.0303030303030303,
+    "cameras": {
+        "1670764546536": {
+            "near": 1.0,
+            "reference_frame_name": "Camera Frame",
+            "init_orientation": [
+                6.12323399573677e-17,
+                1.0,
+                0.0,
+                0.0,
+                -1.0,
+                6.12323399573677e-17,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                100.0,
+                1.0
+            ],
+            "simulation_id": 1670764546536,
+            "type": "PerspectiveCamera",
+            "material": "default",
+            "name": "unnamed",
+            "color": "grey",
+            "far": 1000.0,
+            "fov": 45.0
+        }
+    },
+    "name": "unnamed",
+    "objects": {
+        "1670764505744": {
+            "reference_frame_name": "C",
+            "init_orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "radius": 2.0,
+            "simulation_id": 1670764505744,
+            "type": "Sphere",
+            "material": "metal",
+            "name": "unnamed",
+            "color": "red"
+        },
+        "1670764506976": {
+            "reference_frame_name": "C_R",
+            "init_orientation": [
+                6.12323399573677e-17,
+                1.0,
+                0.0,
+                0.0,
+                -1.0,
+                6.12323399573677e-17,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "radius": 10,
+            "simulation_id": 1670764506976,
+            "type": "Circle",
+            "material": "metal",
+            "name": "unnamed",
+            "color": "white"
+        }
+    },
+    "constant_map": {
+        "k": 100.0,
+        "m": 100.0,
+        "g": 9.8,
+        "c": 5.0
+    },
+    "workspaceSize": 0.2,
+    "startTime": 0.0,
+    "timeDelta": 0.10101010101010101,
+    "newtonian_frame": "C",
+    "lights": {
+        "1670764506192": {
+            "type": "PointLight",
+            "init_orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                10.0,
+                1.0
+            ],
+            "name": "DefaultLight",
+            "color": "white",
+            "simulation_id": 1670764506192
+        }
+    },
+    "simulationData": "2017-04-03_12-17-05_simulation_data.json",
+    "timeSteps": 100,
+    "fps": 30,
+    "source": "PyDy"
+}
