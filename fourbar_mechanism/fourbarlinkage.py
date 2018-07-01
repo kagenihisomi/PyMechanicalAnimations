@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Jun 29 15:28:23 2018
-
+Generates the motion of a fourbar linkage in either Grashoff(Full articulation of driving linkage) or non-grashoff
 @author: asdftoger
 """
 import matplotlib.pyplot as plt
