@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Jun 29 15:28:23 2018
-Generates the motion of a fourbar linkage in either Grashoff(Full articulation of driving linkage) or non-grashoff
+
 @author: asdftoger
 """
 import matplotlib.pyplot as plt
@@ -22,19 +22,20 @@ def calc_th_b(a,b,c,d,th_a,mode='open',show_angle=False):
     E = -2*np.sin(th_a)
     F = K1 + (K4-1)*np.cos(th_a) + K5
     disc = (E**2)-4*D*F 
-    th_b=2*np.arctan((-E - np.sqrt(disc) )/(2*D)) if mode=='open' else 2*np.arctan((-E + np.sqrt(disc) )/(2*D))
-    if show_angle:
-        plt.plot(th_a,th_b)
-        plt.show()
     #Checks if non-grashoff, and extracts the valid angles
-    if not(np.greater_equal(disc,0).all()):#Checks grashoff?
+    if not(np.greater_equal(disc,0).all()):
         #This extracts the th_a elements with discriminants > 0 and reruns the function.
         condition = np.greater_equal(disc,0)
         th_a = np.extract(condition, th_a)
-        condition = np.less_equal(th_a, np.pi)
-        th_a= np.extract(condition,th_a)
+#        condition = np.less_equal(th_a, np.pi)
+#        th_a= np.extract(condition,th_a)
         th_a=np.append(th_a,th_a[-2::-1])
         _,th_b=calc_th_d(a,b,c,d,th_a)
+    else:
+        th_b=2*np.arctan((-E - np.sqrt(disc) )/(2*D)) if mode=='open' else 2*np.arctan((-E + np.sqrt(disc) )/(2*D))
+    if show_angle:
+        plt.plot(th_a,th_b)
+        plt.show()    
     return th_a,th_b    
 
 def calc_th_d(a,b,c,d,th_a,mode='open',show_angle=False):
@@ -47,24 +48,22 @@ def calc_th_d(a,b,c,d,th_a,mode='open',show_angle=False):
     A = np.cos(th_a) - K1 - K2*np.cos(th_a) + K3
     B = -2*np.sin(th_a)
     C = K1 - (K2+1)*np.cos(th_a) + K3
-    
     #Grashoff condition
     disc = (B**2)-4*A*C 
-#    print(disc)
-        #Final formula for other fixed angle
-    th_d=2*np.arctan((-B - np.sqrt(disc) )/(2*A)) if mode=='open' else 2*np.arctan((-B + np.sqrt(disc) )/(2*A))
-    if show_angle:
-        plt.plot(th_a,th_d)
-        plt.show()
     #Checks if non-grashoff, and extracts the valid angles
     if not(np.greater_equal(disc,0).all()):#Checks grashoff?
         #This extracts the th_a elements with discriminants > 0 and reruns the function.
         condition = np.greater_equal(disc,0)
         th_a = np.extract(condition, th_a)
-        condition = np.less_equal(th_a, np.pi)
-        th_a= np.extract(condition,th_a)
+#        condition = np.less_equal(th_a, np.pi)
+#        th_a= np.extract(condition,th_a)
         th_a=np.append(th_a,th_a[-2::-1])#Full range of non-grashoff motion
         _,th_d=calc_th_d(a,b,c,d,th_a)
+    else:
+        th_d=2*np.arctan((-B - np.sqrt(disc) )/(2*A)) if mode=='open' else 2*np.arctan((-B + np.sqrt(disc) )/(2*A))#Final formula for other fixed angle
+    if show_angle:
+        plt.plot(th_a,th_d)
+        plt.show()
     return th_a,th_d
     
 def generate_th_a(rotation='cw',step=0.1):
@@ -212,7 +211,7 @@ def animate_linkage_motion(x1,x2,x3,x4,y1,y2,y3,y4,save_animation=False,animatio
     #Initialize lines and patches
     
     #Animate the FBL
-    ani = animation.FuncAnimation(fig, animate, frames=len(y2),fargs=(x1,x2,x3,x4,y1,y2,y3,y4),#np.arange(1, len(y2)),
+    ani = animation.FuncAnimation(fig, animate, frames=len(y2),fargs=(x1,x2,x3,x4,y1,y2,y3,y4),
                               interval=30, blit=True)
     if save_animation:
         Writer = animation.writers['ffmpeg']
@@ -231,16 +230,19 @@ def animate_linkage_motion(x1,x2,x3,x4,y1,y2,y3,y4,save_animation=False,animatio
 #    a            \
 #     \  tha        \ thd
 #      .______d_______.----
-
-#Non-grashoff FBL
-a,b,c,d = 100,60,200,200
-th_a=generate_th_a(step=1E-2)
-x1,x2,x3,x4,y1,y2,y3,y4=calc_joint_position(a,b,c,d,th_a)
-anim1=animate_linkage_motion(x1,x2,x3,x4,y1,y2,y3,y4,save_animation=True,animation_name='non-grashoff_FBL')
-plt.show()
-#grashoff FBL
-a,b,c,d = 50,60,200,200
-th_a=generate_th_a(step=1E-2)
-x1,x2,x3,x4,y1,y2,y3,y4=calc_joint_position(a,b,c,d,th_a)
-anim2=animate_linkage_motion(x1,x2,x3,x4,y1,y2,y3,y4,save_animation=True,animation_name='grashoff_FBL')
-plt.show()
+if __name__=='__main__':
+    case='g'
+    if case=='ng':
+        #Non-grashoff
+        a,b,c,d = 300,500,200,200
+        th_a=generate_th_a(step=0.1E-1)
+        x1,x2,x3,x4,y1,y2,y3,y4=calc_joint_position(a,b,c,d,th_a)
+        anim1=animate_linkage_motion(x1,x2,x3,x4,y1,y2,y3,y4)#save_animation=True,animation_name='non-grashoff_FBL')
+        plt.show()
+    elif case=='g':
+        #Grashoff
+        a,b,c,d = 50,60,200,200
+        th_a=generate_th_a(step=1E-2)
+        x1,x2,x3,x4,y1,y2,y3,y4=calc_joint_position(a,b,c,d,th_a)
+        anim2=animate_linkage_motion(x1,x2,x3,x4,y1,y2,y3,y4,save_animation=True,animation_name='grashoff_FBL')
+        plt.show()
